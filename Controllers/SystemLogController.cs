@@ -9,7 +9,7 @@ using UHDControlServer.Models;
 namespace UHDControlServer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/system-logs")]
     public class SystemLogController : ControllerBase
     {
         private readonly ILogger<SystemLogController> _logger;

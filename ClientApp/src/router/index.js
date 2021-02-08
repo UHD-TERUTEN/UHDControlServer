@@ -10,12 +10,12 @@ const routes = [
         component: Home,
     },
     {
-        path: "/Counter",
+        path: "/counter",
         name: "Counter",
         component: Counter,
     },
     {
-        path: "/FetchData",
+        path: "/fetch-data",
         name: "FetchData",
         component: FetchData,
     }

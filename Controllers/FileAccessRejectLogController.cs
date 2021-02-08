@@ -9,7 +9,7 @@ using UHDControlServer.Models;
 namespace UHDControlServer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/file-access-reject-logs")]
     public class FileAccessRejectLogController : ControllerBase
     {
         private readonly ILogger<FileAccessRejectLogController> _logger;
@@ -52,7 +52,7 @@ namespace UHDControlServer.Controllers
             .ToArray();
         }
 
-        [HttpGet("{id:int/inquiries/inquiryId:int}")]
+        [HttpGet("{id:int}/inquiries/{inquiry-id:int}")]
         public Inquiry GetInquiries(int id, int inquiryId)
         {
             return new Inquiry()

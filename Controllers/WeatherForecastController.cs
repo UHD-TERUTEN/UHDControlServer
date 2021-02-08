@@ -8,7 +8,7 @@ using UHDControlServer.Models;
 namespace UHDControlServer.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/weather-forecast")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

@@ -9,7 +9,7 @@ using UHDControlServer.Models;
 namespace UHDControlServer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/whitelist")]
     public class WhitelistController : ControllerBase
     {
         private readonly ILogger<WhitelistController> _logger;

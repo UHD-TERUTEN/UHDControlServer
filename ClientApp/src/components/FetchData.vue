@@ -37,7 +37,7 @@
         },
         methods: {
             getWeatherForecasts() {
-                axios.get('/weatherforecast')
+                axios.get('api/weather-forecast')
                     .then((response) => {
                         this.forecasts =  response.data;
                     })
