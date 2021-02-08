@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UHDControlServer.Attributes;
 using UHDControlServer.Models;
 
@@ -12,55 +14,38 @@ namespace UHDControlServer.Controllers
     [Route("api/whitelist")]
     public class WhitelistController : ControllerBase
     {
-        private readonly ILogger<WhitelistController> _logger;
-
-        public WhitelistController(ILogger<WhitelistController> logger)
+        public WhitelistController(ILogger<WhitelistController> logger, SqliteDbContext dbContext)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.dbContext = dbContext;
         }
 
         [HttpGet("{id:int}")]
-        public Whitelist Get(int id)
+        public async Task<Whitelist> Get(int id)
         {
-            return new Whitelist()
-            {
-                Id = id,
-                Version = "1.0.0",
-                LastUpdated = DateTime.UtcNow.AddDays(-1),
-                LastDistributed = DateTime.UtcNow,
-            };
+            return await dbContext.Whitelist
+                .Where(list => (list.Id == id))
+                .FirstOrDefaultAsync();
         }
 
         [HttpGet]
         [ExactQueryParam("page")]
-        public IEnumerable<Whitelist> GetPage([FromQuery(Name = "page")] int page)
+        public async Task<IEnumerable<Whitelist>> GetPage([FromQuery(Name = "page")] int page)
         {
-            var rng = new Random();
-            return Enumerable.Range(0, 4).Select(index => new Whitelist
-            {
-                Id = index,
-                Version = $"1.0.{index}",
-                LastUpdated = DateTime.UtcNow.AddDays(index -4),
-                LastDistributed = DateTime.UtcNow,
-            })
-            .ToArray();
+            return await dbContext.Whitelist.ToListAsync();
         }
 
         [HttpGet]
         [ExactQueryParam("version")]
-        public IEnumerable<Whitelist> GetByVersion([FromQuery(Name = "version")] string version)
+        public async Task<IEnumerable<Whitelist>> GetByVersion([FromQuery(Name = "version")] string version)
         {
-            var rng = new Random();
-            return Enumerable.Range(0, 4)
-                .Select(index => new Whitelist
-                {
-                    Id = index,
-                    Version = $"1.0.{index}",
-                    LastUpdated = DateTime.UtcNow.AddDays(index - 4),
-                    LastDistributed = DateTime.UtcNow,
-                })
-                .Where(whitelist => whitelist.Version == version)
-                .ToArray();
+            return await dbContext.Whitelist
+                .Where(list => (list.Version == version))
+                .ToListAsync();
         }
+
+        private readonly SqliteDbContext dbContext;
+
+        private readonly ILogger<WhitelistController> logger;
     }
 }

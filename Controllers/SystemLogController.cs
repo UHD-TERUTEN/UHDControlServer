@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UHDControlServer.Attributes;
 using UHDControlServer.Models;
 
@@ -12,38 +14,29 @@ namespace UHDControlServer.Controllers
     [Route("api/system-logs")]
     public class SystemLogController : ControllerBase
     {
-        private readonly ILogger<SystemLogController> _logger;
-
-        public SystemLogController(ILogger<SystemLogController> logger)
+        public SystemLogController(ILogger<SystemLogController> logger, SqliteDbContext dbContext)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.dbContext = dbContext;
         }
 
         [HttpGet("{id:int}")]
-        public SystemLog Get(int id)
+        public async Task<SystemLog> Get(int id)
         {
-            return new SystemLog()
-            {
-                Id = id,
-                AgentId = 2,
-                DateTime = DateTime.UtcNow,
-                Size = 1024,
-            };
+            return await dbContext.SystemLogs
+                .Where(log => (log.Id == id))
+                .FirstOrDefaultAsync();
         }
 
         [HttpGet]
         [ExactQueryParam("page")]
-        public IEnumerable<SystemLog> GetPage([FromQuery(Name = "page")] int page)
+        public async Task<IEnumerable<SystemLog>> GetPage([FromQuery(Name = "page")] int page)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new SystemLog
-            {
-                Id = index,
-                AgentId = rng.Next(1, 10),
-                DateTime = DateTime.UtcNow.AddDays(index),
-                Size = 1024 * index,
-            })
-            .ToArray();
+            return await dbContext.SystemLogs.ToListAsync();
         }
+
+        private readonly SqliteDbContext dbContext;
+
+        private readonly ILogger<SystemLogController> logger;
     }
 }

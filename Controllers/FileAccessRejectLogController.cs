@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UHDControlServer.Attributes;
 using UHDControlServer.Models;
 
@@ -12,56 +14,51 @@ namespace UHDControlServer.Controllers
     [Route("api/file-access-reject-logs")]
     public class FileAccessRejectLogController : ControllerBase
     {
-        private readonly ILogger<FileAccessRejectLogController> _logger;
-
-        public FileAccessRejectLogController(ILogger<FileAccessRejectLogController> logger)
+        public FileAccessRejectLogController(ILogger<FileAccessRejectLogController> logger, SqliteDbContext dbContext)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.dbContext = dbContext;
         }
 
         [HttpGet("{id:int}")]
-        public FileAccessRejectLog Get(int id)
+        public async Task<FileAccessRejectLog> Get(int id)
         {
-            return new FileAccessRejectLog()
-            {
-                Id = id,
-                AgentId = 2,
-                DateTime = DateTime.UtcNow,
-                ProgramName = "program",
-                Details = "details",
-                IsAllowed = false,
-                Inquiries = new Inquiry[] { },
-            };
+            return await dbContext.FileAccessRejectLogs
+                .Where(log => (log.Id == id))
+                .FirstOrDefaultAsync();
         }
 
         [HttpGet]
         [ExactQueryParam("page")]
-        public IEnumerable<FileAccessRejectLog> GetPage([FromQuery(Name = "page")] int page)
+        public async Task<IEnumerable<FileAccessRejectLog>> GetPage([FromQuery(Name = "page")] int page)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new FileAccessRejectLog
-            {
-                Id = index,
-                AgentId = rng.Next(1, 10),
-                DateTime = DateTime.UtcNow.AddDays(index),
-                ProgramName = $"program-{index}",
-                Details = $"details-{index}",
-                IsAllowed = (rng.Next(1, 2) == 1),
-                Inquiries = new Inquiry[] { },
-            })
-            .ToArray();
+            return await dbContext.FileAccessRejectLogs.ToListAsync();
         }
 
         [HttpGet("{id:int}/inquiries/{inquiry-id:int}")]
-        public Inquiry GetInquiries(int id, int inquiryId)
+        public async Task<Inquiry> GetInquiries(int id, int inquiryId)
         {
-            return new Inquiry()
-            {
-                Id = inquiryId,
-                Title = "title",
-                Log = "log",
-                Details = "details",
-            };
+            var log = await dbContext.FileAccessRejectLogs
+                .Where(log => (log.Id == id))
+                .FirstOrDefaultAsync();
+
+            return log.Inquiries[0];
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Put(int id, bool accept)
+        {
+            var log = await dbContext.FileAccessRejectLogs
+                .Where(log => (log.Id == id))
+                .FirstOrDefaultAsync();
+
+            log.IsAllowed = accept;
+            dbContext.FileAccessRejectLogs.Update(log);
+            return Ok(log);
+        }
+
+        private readonly SqliteDbContext dbContext;
+
+        private readonly ILogger<FileAccessRejectLogController> logger;
     }
 }
