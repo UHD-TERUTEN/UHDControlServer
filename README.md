@@ -14,7 +14,7 @@
 ## Usage
 1. sqlite database 생성 (더미 데이터)
 ``` powershell
-$ dotnet install --global dotnet-ef
+$ dotnet tool install --global dotnet-ef
 $ cd <project_directory>
 $ dotnet ef migrations add [migration_name]
 $ dotnet ef database update
