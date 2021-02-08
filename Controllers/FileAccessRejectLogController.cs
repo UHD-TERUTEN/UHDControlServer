@@ -20,19 +20,19 @@ namespace UHDControlServer.Controllers
             this.dbContext = dbContext;
         }
 
+        [HttpGet]
+        [ExactQueryParam("page")]
+        public async Task<IEnumerable<FileAccessRejectLog>> GetPage([FromQuery(Name = "page")] int page)
+        {
+            return await dbContext.FileAccessRejectLogs.ToListAsync();
+        }
+
         [HttpGet("{id:int}")]
         public async Task<FileAccessRejectLog> Get(int id)
         {
             return await dbContext.FileAccessRejectLogs
                 .Where(log => (log.Id == id))
                 .FirstOrDefaultAsync();
-        }
-
-        [HttpGet]
-        [ExactQueryParam("page")]
-        public async Task<IEnumerable<FileAccessRejectLog>> GetPage([FromQuery(Name = "page")] int page)
-        {
-            return await dbContext.FileAccessRejectLogs.ToListAsync();
         }
 
         [HttpGet("{id:int}/inquiries/{inquiry-id:int}")]

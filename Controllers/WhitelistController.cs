@@ -20,14 +20,6 @@ namespace UHDControlServer.Controllers
             this.dbContext = dbContext;
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<Whitelist> Get(int id)
-        {
-            return await dbContext.Whitelist
-                .Where(list => (list.Id == id))
-                .FirstOrDefaultAsync();
-        }
-
         [HttpGet]
         [ExactQueryParam("page")]
         public async Task<IEnumerable<Whitelist>> GetPage([FromQuery(Name = "page")] int page)
@@ -42,6 +34,14 @@ namespace UHDControlServer.Controllers
             return await dbContext.Whitelist
                 .Where(list => (list.Version == version))
                 .ToListAsync();
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<Whitelist> Get(int id)
+        {
+            return await dbContext.Whitelist
+                .Where(list => (list.Id == id))
+                .FirstOrDefaultAsync();
         }
 
         private readonly SqliteDbContext dbContext;

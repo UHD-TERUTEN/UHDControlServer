@@ -20,19 +20,19 @@ namespace UHDControlServer.Controllers
             this.dbContext = dbContext;
         }
 
+        [HttpGet]
+        [ExactQueryParam("page")]
+        public async Task<IEnumerable<SystemLog>> GetPage([FromQuery(Name = "page")] int page)
+        {
+            return await dbContext.SystemLogs.ToListAsync();
+        }
+
         [HttpGet("{id:int}")]
         public async Task<SystemLog> Get(int id)
         {
             return await dbContext.SystemLogs
                 .Where(log => (log.Id == id))
                 .FirstOrDefaultAsync();
-        }
-
-        [HttpGet]
-        [ExactQueryParam("page")]
-        public async Task<IEnumerable<SystemLog>> GetPage([FromQuery(Name = "page")] int page)
-        {
-            return await dbContext.SystemLogs.ToListAsync();
         }
 
         private readonly SqliteDbContext dbContext;
