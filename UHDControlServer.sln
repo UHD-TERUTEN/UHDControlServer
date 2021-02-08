@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UHDControlServer", "UHDControlServer.csproj", "{D06D7DA6-2726-4C4E-B7BC-148A7222C294}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D06D7DA6-2726-4C4E-B7BC-148A7222C294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D06D7DA6-2726-4C4E-B7BC-148A7222C294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D06D7DA6-2726-4C4E-B7BC-148A7222C294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D06D7DA6-2726-4C4E-B7BC-148A7222C294}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F45F5501-B7AE-4689-8109-39DE08BDAE7F}
+	EndGlobalSection
+EndGlobal
