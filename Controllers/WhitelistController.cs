@@ -44,6 +44,14 @@ namespace UHDControlServer.Controllers
                 .FirstOrDefaultAsync();
         }
 
+        [HttpGet("latest")]
+        public async Task<Whitelist> Get()
+        {
+            return await dbContext.Whitelist
+                .OrderByDescending(list => list.Id)
+                .FirstOrDefaultAsync();
+        }
+
         private readonly SqliteDbContext dbContext;
 
         private readonly ILogger<WhitelistController> logger;
