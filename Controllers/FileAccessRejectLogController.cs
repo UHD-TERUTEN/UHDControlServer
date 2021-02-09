@@ -35,25 +35,23 @@ namespace UHDControlServer.Controllers
                 .FirstOrDefaultAsync();
         }
 
-        [HttpGet("{id:int}/inquiries/{inquiry-id:int}")]
+        [HttpGet("{id:int}/inquiries/{inquiryId:int}")]
         public async Task<Inquiry> GetInquiries(int id, int inquiryId)
         {
             var log = await dbContext.FileAccessRejectLogs
                 .Where(log => (log.Id == id))
                 .FirstOrDefaultAsync();
 
-            return log.Inquiries[0];
+            return (log.Inquiries.Length > inquiryId - 1)
+                ? log.Inquiries[inquiryId - 1]
+                : new Inquiry() { Id = 1, Title = "empty", Log = "empty", Details = "empty" };
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Put(int id, bool accept)
+        [HttpPut]
+        public async Task<IActionResult> Put(FileAccessRejectLog log)
         {
-            var log = await dbContext.FileAccessRejectLogs
-                .Where(log => (log.Id == id))
-                .FirstOrDefaultAsync();
-
-            log.IsAllowed = accept;
             dbContext.FileAccessRejectLogs.Update(log);
+            await dbContext.SaveChangesAsync();
             return Ok(log);
         }
 
