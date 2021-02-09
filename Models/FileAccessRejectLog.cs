@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace UHDControlServer.Models
 {
     public class FileAccessRejectLog
     {
+        [Key]
         public int Id { get; set; }
 
         public int AgentId { get; set; }
@@ -16,6 +18,6 @@ namespace UHDControlServer.Models
 
         public bool IsAllowed { get; set; }
 
-        public Inquiry[] Inquiries { get; set; }
+        public Inquiry[] Inquiries { get; set; } = new Inquiry[] { };
     }
 }
