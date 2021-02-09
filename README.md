@@ -28,8 +28,8 @@ $ dotnet watch run
 ### file-access-reject-logs
 |Implemented|Method|URL|Example|
 |--|--|--|--|
-|Yes|GET|api/file-access-reject-logs?page={page}|curl -XGET http://localhost:65537/api/file-access-reject-log?page=1|
-|Yes|GET|api/file-access-reject-logs/{id}|curl -XGET http://localhost:65537/api/file-access-reject-log/1|
+|Yes|GET|api/file-access-reject-logs?page={page}|curl -XGET http://localhost:65537/api/file-access-reject-logs?page=1|
+|Yes|GET|api/file-access-reject-logs/{id}|curl -XGET http://localhost:65537/api/file-access-reject-logs/1|
 |Yes|GET|api/file-access-reject-logs/{id}/inquiries/{inquiry-id}|curl -XGET http://localhost:65537/api/file-access-reject-logs/1/inquiries/1|
 |Yes|PUT|api/file-access-reject-logs/{id}|curl -XPUT http://localhost:65537/api/file-access-reject-logs/1|
 
