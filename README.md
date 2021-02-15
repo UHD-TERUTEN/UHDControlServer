@@ -15,6 +15,7 @@
 ## Usage
 1. yarn dependency 설치
 ``` powershell
+$ cd <project_directory>/ClientApp
 $ yarn install
 ```
 2. sqlite database 생성 (더미 데이터)
@@ -26,8 +27,11 @@ $ dotnet ef database update
 ```
 3. 서버 애플리케이션 실행
 ``` powershell
+$ cd <project_directory>
 $ dotnet watch run
-$ cd ClientApp
+```
+``` powershell
+$ cd <project_directory>/ClientApp
 $ yarn run dev 
 ```
 또는 Visual Studio에서 ctrl+f5   
