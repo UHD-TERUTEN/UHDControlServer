@@ -10,19 +10,28 @@
 - dotnet 5.0.x SDK
 - ASP.NET Core Runtime 5.0.x
 - dotnet EntityFramework (dotnet ef)
+- yarn
 
 ## Usage
-1. sqlite database 생성 (더미 데이터)
+1. yarn dependency 설치
+``` powershell
+$ yarn install
+```
+2. sqlite database 생성 (더미 데이터)
 ``` powershell
 $ dotnet tool install --global dotnet-ef
 $ cd <project_directory>
 $ dotnet ef migrations add [migration_name]
 $ dotnet ef database update
 ```
-2. 서버 애플리케이션 실행
+3. 서버 애플리케이션 실행
 ``` powershell
 $ dotnet watch run
+$ cd ClientApp
+$ yarn run dev 
 ```
+또는 Visual Studio에서 ctrl+f5   
+(오류 메시지 무시하고 일정 시간 뒤 새로고침)
 
 ## Backend API
 ### file-access-reject-logs
