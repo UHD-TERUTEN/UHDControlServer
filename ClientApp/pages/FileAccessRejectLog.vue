@@ -26,7 +26,6 @@
               <v-btn
                 color="primary"
                 elevation="1"
-                tile
               >
                 확인
               </v-btn>
@@ -35,7 +34,6 @@
               <v-btn
                 color="primary"
                 elevation="1"
-                tile
               >
                 허용
               </v-btn>

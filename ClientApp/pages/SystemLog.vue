@@ -23,7 +23,6 @@
               <v-btn
                 color="primary"
                 elevation="1"
-                tile
               >
                 다운로드
               </v-btn>
