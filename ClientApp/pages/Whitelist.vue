@@ -45,16 +45,3 @@ export default {
   }
 }
 </script>
-/*
-new Vue({
-  el: '#app',
-  vuetify: new Vuetify(),
-  data:{
-    object:{
-      CurVer : "1.2.3",
-      VerUT : "2021.02.24 21:25",
-      LastSpreadT : "2021.02.25 00:24"
-    }
-  }
-})
-</script>*/
