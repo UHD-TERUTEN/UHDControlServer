@@ -17,12 +17,13 @@
             :key="item.name"
           >
             <td>{{ item.agentId }}</td>
-            <td>{{ item.date }}</td>
+            <td>{{ item.dateTime }}</td>
             <td>{{ item.size }}</td>
             <td>
               <v-btn
                 color="primary"
                 elevation="1"
+                @click="downloadLog(id)"
               >
                 다운로드
               </v-btn>
@@ -52,94 +53,38 @@
   </div>
 </template>
 
-<style>
-
-</style>
-
 <script>
+import axios from '../axios'
+
 export default {
   data () {
     return {
-      logList: [
-        {
-          agentId: 1,
-          date: '2021-11-01',
-          size: "10.2 MB",
-        },
-        {
-          agentId: 1,
-          date: '2021-11-01',
-          size: "10.3 MB",
-        },
-        {
-          agentId: 2,
-          date: '2021-11-01',
-          size: "10.4 MB",
-        },
-        {
-          agentId: 3,
-          date: '2021-10-31',
-          size: "10.5 MB",
-        },
-        {
-          agentId: 3,
-          date: '2021-10-31',
-          size: "10.6 MB",
-        },
-        {
-          agentId: 1,
-          date: '2021-10-31',
-          size: "10.7 MB",
-        },
-        {
-          agentId: 1,
-          date: '2021-10-30',
-          size: "10.8 MB",
-        },
-      ],
+      logList: [],
       page: 1,
     }
   },
+  created() {
+    this.next()
+  },
   methods: {
     next() {
-      this.logList = [
-        {
-          agentId: 10,
-          date: '2021-11-01',
-          size: "10.2 MB",
-        },
-        {
-          agentId: 10,
-          date: '2021-11-01',
-          size: "10.3 MB",
-        },
-        {
-          agentId: 20,
-          date: '2021-11-01',
-          size: "10.4 MB",
-        },
-        {
-          agentId: 30,
-          date: '2021-10-31',
-          size: "10.5 MB",
-        },
-        {
-          agentId: 30,
-          date: '2021-10-31',
-          size: "10.6 MB",
-        },
-        {
-          agentId: 10,
-          date: '2021-10-31',
-          size: "10.7 MB",
-        },
-        {
-          agentId: 10,
-          date: '2021-10-30',
-          size: "10.8 MB",
-        },
-      ]
-    }
+      axios.get(`/system-logs?page=${this.page}`)
+        .then(res => {
+          console.log(res)
+          this.logList = res.data
+        })
+        .catch(err => console.log(err))
+    },
+    getLog(id) {
+      axios.get(`/file-access-reject-logs/${id}`)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => console.log(err))
+    },
+    downloadLog(id) {
+      // TODO: implement here
+    },
   }
 }
 </script>

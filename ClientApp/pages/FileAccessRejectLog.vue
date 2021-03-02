@@ -19,23 +19,34 @@
             :key="item.name"
           >
             <td>{{ item.agentId }}</td>
-            <td>{{ item.datetime }}</td>
+            <td>{{ item.dateTime }}</td>
             <td>{{ item.programName }}</td>
             <td>{{ item.details }}</td>
             <td>
               <v-btn
                 color="primary"
                 elevation="1"
+                @click="getInquiries(item.id)"
               >
                 확인
               </v-btn>
             </td>
             <td>
               <v-btn
+                v-if="item.isAllowed"
                 color="primary"
                 elevation="1"
+                @click="updateLog(item)"
               >
                 허용
+              </v-btn>
+              <v-btn
+                v-else
+                color="error"
+                elevation="1"
+                @click="updateLog(item)"
+              >
+                차단
               </v-btn>
             </td>
           </tr>
@@ -63,107 +74,49 @@
   </div>
 </template>
 
-<style>
-
-</style>
-
 <script>
+import axios from '../axios'
+
 export default {
   data () {
     return {
-      logList: [
-        {
-          agentId: 1,
-          datetime: '2021-11-01 13:01:11',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 1,
-          datetime: '2021-11-01 12:58:22',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 2,
-          datetime: '2021-11-01 12:56:33',
-          programName: '한글 2012',
-          details: '새 이미지.svg 접근 차단',
-        },
-        {
-          agentId: 3,
-          datetime: '2021-11-01 12:55:44',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 3,
-          datetime: '2021-11-01 12:53:55',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 1,
-          datetime: '2021-11-01 10:00:32',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 1,
-          datetime: '2021-11-01 09:23:01',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-      ],
+      logList: [],
       page: 1,
     }
   },
+  created() {
+    this.next()
+  },
   methods: {
     next() {
-      this.logList = [
-        {
-          agentId: 10,
-          datetime: '2021-11-01 13:01:11',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 10,
-          datetime: '2021-11-01 12:58:22',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 20,
-          datetime: '2021-11-01 12:56:33',
-          programName: '한글 2012',
-          details: '새 이미지.svg 접근 차단',
-        },
-        {
-          agentId: 30,
-          datetime: '2021-11-01 12:55:44',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 30,
-          datetime: '2021-11-01 12:53:55',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 10,
-          datetime: '2021-11-01 10:00:32',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-        {
-          agentId: 10,
-          datetime: '2021-11-01 09:23:01',
-          programName: 'Microsoft Excel',
-          details: '새 이미지.png 접근 차단',
-        },
-      ]
+      axios.get(`/file-access-reject-logs?page=${this.page}`)
+        .then(res => {
+          console.log(res)
+          this.logList = res.data
+        })
+        .catch(err => console.log(err))
+    },
+    getLog(id) {
+      axios.get(`/file-access-reject-logs/${id}`)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => console.log(err))
+    },
+    getInquiries(id) {
+      axios.get(`/file-access-reject-logs/${id}/inquiries/1`) // TODO: get all inquiries
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => console.log(err))
+    },
+    updateLog(item) {
+      item.isAllowed = !item.isAllowed;
+      axios.put(`/file-access-reject-logs/${item.id}`, item)  // 405 Method Not Allowed
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => console.log(err));
     }
   }
 }
