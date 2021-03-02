@@ -1,32 +1,43 @@
 <template>
-
-<div>
-    <v-app>
-        <v-container>
-            <v-row>
-                <v-col
-                    cols="12"
-                    md="6"
-                >
-                    <v-textarea
-                        outlined
-                        name="input-7-4"
-                        label=""
-                        value="현재 화이트 리스트 버전 : 1.2.3
-현재 버전 업데이트 시각 : 2021.02.24 21:25
-마지막 배포 시각 :              2021.02.25 00:25."
-             
-          ></v-textarea>
-          <v-btn
-                color="primary"
-                elevation="1"
-              >
-                배포하기
-              </v-btn>
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-app>
-</div>
-
+  <v-alert text color="info">
+    <v-row>
+      <v-col><h3 class="headline">Whitelist</h3></v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="3">현재 화이트리스트 버전: </v-col>
+      <v-col>{{ object.version }}</v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="3">현재 버전 업데이트 시각: </v-col>
+      <v-col>{{ object.lastUpdated }}</v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="3">마지막 배포 시각: </v-col>
+      <v-col>{{ object.lastDistributed }}</v-col>
+    </v-row>
+    <v-divider class="my-4 info" style="opacity: 0.22" />
+    <v-row align="center" no-gutters>
+      <v-spacer />
+      <v-col class="shrink">
+        <v-btn color="primary" elevation="1"> 배포하기 </v-btn>
+      </v-col>
+    </v-row>
+  </v-alert>
 </template>
+
+<style>
+</style>
+
+<script>
+export default {
+  data() {
+    return {
+      object: {
+        version: "1.2.3",
+        lastUpdated: "2021.02.24 21:25",
+        lastDistributed: "2021.02.25 00:24",
+      },
+    };
+  },
+};
+</script>
