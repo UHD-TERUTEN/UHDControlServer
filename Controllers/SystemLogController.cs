@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using UHDControlServer.Attributes;
 using UHDControlServer.Models;
 
