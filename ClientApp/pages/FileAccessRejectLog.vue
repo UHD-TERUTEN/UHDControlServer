@@ -36,7 +36,7 @@
                 v-if="item.isAllowed"
                 color="primary"
                 elevation="1"
-                @click="updateLog(item)"
+                @click="toggleAllow(item)"
               >
                 허용
               </v-btn>
@@ -44,7 +44,7 @@
                 v-else
                 color="error"
                 elevation="1"
-                @click="updateLog(item)"
+                @click="toggleAllow(item)"
               >
                 차단
               </v-btn>
@@ -110,8 +110,11 @@ export default {
         })
         .catch(err => console.log(err))
     },
+    toggleAllow(item) {
+      item.isAllowed = !item.isAllowed
+      this.updateLog(item)
+    },
     updateLog(item) {
-      item.isAllowed = !item.isAllowed;
       axios.put(`/file-access-reject-logs/${item.id}`, item)  // 405 Method Not Allowed
         .then(res => {
           console.log(res)
