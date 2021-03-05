@@ -91,7 +91,7 @@ export default {
       page: 1,
       snackbar: false,
       timeout: 2000,
-      text: ''
+      text: null
     }
   },
   created() {

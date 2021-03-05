@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UHDControlServer.Attributes;
 using UHDControlServer.Models;
@@ -45,15 +46,35 @@ namespace UHDControlServer.Controllers
         }
 
         [HttpGet("latest")]
-        public async Task<Whitelist> Get()
+        public async Task<Whitelist> GetLatest()
         {
             return await dbContext.Whitelist
                 .OrderByDescending(list => list.Id)
                 .FirstOrDefaultAsync();
         }
 
+        [HttpGet("distribute/version:regex(^\\d{{1}}.\\d{{1}}.\\d{{1}}$)")]
+        public async Task<IActionResult> Distribute(int version)
+        {
+            // sftp를 이용해 화이트리스트 전송
+            await Task.Run(() => {
+                batchFileSender.Start();
+                batchFileSender.WaitForExit();
+            });
+            // TODO: TCP를 이용해 에이전트 프로그램에 알림 (홈 화면)
+            return Ok();
+        }
+
         private readonly SqliteDbContext dbContext;
 
         private readonly ILogger<WhitelistController> logger;
+
+        private readonly Process batchFileSender = new Process()
+        {
+            StartInfo = new ProcessStartInfo("file_sender.bat")
+            {
+                UseShellExecute = false
+            }
+        };
     }
 }
