@@ -48,6 +48,13 @@
               >
                 차단
               </v-btn>
+              <v-snackbar
+                v-model="snackbar"
+                :timeout="timeout"
+                right
+              >
+                {{ text }}
+              </v-snackbar>
             </td>
           </tr>
         </tbody>
@@ -82,6 +89,9 @@ export default {
     return {
       logList: [],
       page: 1,
+      snackbar: false,
+      timeout: 2000,
+      text: ''
     }
   },
   created() {
@@ -117,7 +127,8 @@ export default {
     updateLog(item) {
       axios.put('/file-access-reject-logs', item)
         .then(res => {
-          console.log(res)
+          this.text = `${res.data.isAllowed ? '허용' : '차단' }되었습니다`
+          this.snackbar = true
         })
         .catch(err => console.log(err));
     }
