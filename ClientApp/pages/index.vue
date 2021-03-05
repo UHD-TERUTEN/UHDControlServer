@@ -46,7 +46,7 @@
         },
         {
           from: '화이트리스트',
-          message: '화이트리스트 버전 관리 및 에이전트 PC 배포',
+          message: '화이트리스트 버전 관리 및 에이전트 PC 환경에 배포',
           color: 'orange darken-1',
         },
         {
