@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using UHDControlServer.Attributes;
 using UHDControlServer.Models;
 
@@ -33,6 +33,15 @@ namespace UHDControlServer.Controllers
             return await dbContext.SystemLogs
                 .Where(log => (log.Id == id))
                 .FirstOrDefaultAsync();
+        }
+
+        [HttpGet("{fileName:regex(^[[0-9-_]]{{12}}.zip$)}")]
+        public FileResult GetBlobDownload(string fileName)
+        {
+            string filePath = $"../logs/{fileName}";
+            var content = System.IO.File.OpenRead(filePath);
+            var contentType = "application/octet-stream";
+            return File(content, contentType, fileName);
         }
 
         private readonly SqliteDbContext dbContext;
