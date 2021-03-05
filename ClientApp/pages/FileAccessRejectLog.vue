@@ -115,7 +115,7 @@ export default {
       this.updateLog(item)
     },
     updateLog(item) {
-      axios.put(`/file-access-reject-logs/${item.id}`, item)  // 405 Method Not Allowed
+      axios.put('/file-access-reject-logs', item)
         .then(res => {
           console.log(res)
         })
