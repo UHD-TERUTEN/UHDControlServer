@@ -6,7 +6,7 @@
 - 관리자 판단에 의해 차단된 파일 접근 허용
 - 화이트리스트 버전 관리
 
-## GoogleTest
+## xUnit
 ![210311](https://user-images.githubusercontent.com/31408641/110795376-199a4280-82ba-11eb-9dda-a44d2b11186e.png)
 
 ## Development Environment
