@@ -10,7 +10,7 @@ using UHDControlServer.Models;
 namespace UHDControlServer.Controllers
 {
     [ApiController]
-    [Route("api/file-access-reject-logs")]
+    [Route("api/file-access-reject-log")]
     public class FileAccessRejectLogController : ControllerBase
     {
         public FileAccessRejectLogController(ILogger<FileAccessRejectLogController> logger, SqliteDbContext dbContext)
@@ -21,37 +21,56 @@ namespace UHDControlServer.Controllers
 
         [HttpGet]
         [ExactQueryParam("page")]
-        public async Task<IEnumerable<FileAccessRejectLog>> GetPage([FromQuery(Name = "page")] int page)
+        public async Task<IActionResult> GetPage([FromQuery(Name = "page")] int page)
         {
-            return await dbContext.FileAccessRejectLogs.ToListAsync();
+            if (page < 1)
+                return BadRequest($"Out of range: {page}");
+
+            var fileAccessRejectLogs = await dbContext.FileAccessRejectLogs.ToListAsync();
+            return Ok(fileAccessRejectLogs);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<FileAccessRejectLog> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await dbContext.FileAccessRejectLogs
+            if (id < 1)
+                return BadRequest($"Out of range: {id}");
+
+            var fileAccessRejectLog =  await dbContext.FileAccessRejectLogs
                 .Where(log => (log.Id == id))
                 .FirstOrDefaultAsync();
+            return Ok(fileAccessRejectLog);
         }
 
         [HttpGet("{id:int}/inquiries/{inquiryId:int}")]
-        public async Task<Inquiry> GetInquiries(int id, int inquiryId)
+        public async Task<IActionResult> GetInquiries(int id, int inquiryId)
         {
+            if (id < 1)         return BadRequest($"Out of range: {id}");
+            if (inquiryId < 1)  return BadRequest($"Out of range: {inquiryId}");
+
             var log = await dbContext.FileAccessRejectLogs
                 .Where(log => (log.Id == id))
                 .FirstOrDefaultAsync();
-
-            return (log.Inquiries.Length > inquiryId - 1)
-                ? log.Inquiries[inquiryId - 1]
-                : new Inquiry() { Id = 1, Title = "empty", Log = "empty", Details = "empty" };
+            return Ok(log);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(FileAccessRejectLog log)
+        public async Task<IActionResult> Put([FromBody] FileAccessRejectLog fileAccessRejectLog)
         {
-            dbContext.FileAccessRejectLogs.Update(log);
-            await dbContext.SaveChangesAsync();
-            return Ok(log);
+            var fileAccessRejectLogEntry = dbContext.FileAccessRejectLogs.Update(fileAccessRejectLog);
+            var changedEntry = fileAccessRejectLogEntry.Context.ChangeTracker.Entries()
+                .Where(x => x.State != EntityState.Unchanged).ToList();
+
+            if (changedEntry.Count != 1)
+            {
+                fileAccessRejectLogEntry.Reload();
+                return BadRequest($"Invalid data: {fileAccessRejectLog}");
+            }
+            else
+            {
+                await dbContext.SaveChangesAsync();
+                return Ok(fileAccessRejectLog);
+            }
         }
 
         private readonly SqliteDbContext dbContext;

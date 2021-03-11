@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UHDControlServer", "UHDControlServer.csproj", "{D06D7DA6-2726-4C4E-B7BC-148A7222C294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UHDControlServer", "UHDControlServer.csproj", "{D06D7DA6-2726-4C4E-B7BC-148A7222C294}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{D182545D-8B5C-4476-B0B9-13CB3C395923}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D06D7DA6-2726-4C4E-B7BC-148A7222C294}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D06D7DA6-2726-4C4E-B7BC-148A7222C294}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D06D7DA6-2726-4C4E-B7BC-148A7222C294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D182545D-8B5C-4476-B0B9-13CB3C395923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D182545D-8B5C-4476-B0B9-13CB3C395923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D182545D-8B5C-4476-B0B9-13CB3C395923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D182545D-8B5C-4476-B0B9-13CB3C395923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

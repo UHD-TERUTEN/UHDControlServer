@@ -4,9 +4,11 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using UHDControlServer.Attributes;
 using UHDControlServer.Models;
+using System.Text.RegularExpressions;
 
 namespace UHDControlServer.Controllers
 {
@@ -18,49 +20,87 @@ namespace UHDControlServer.Controllers
         {
             this.logger = logger;
             this.dbContext = dbContext;
+
+            using (var streamReader = new StreamReader(@"scripts/upload.txt"))
+            {
+                batchFileSenderArguments = streamReader.ReadLine();
+            }
+
+            batchFileSender = new Process()
+            {
+                StartInfo = new ProcessStartInfo("scripts/file_sender.bat", batchFileSenderArguments)
+                {
+                    UseShellExecute = false
+                }
+            };
+
+            validateVersion = new Regex("^\\d{1}.\\d{1}.\\d{1}$");
         }
 
         [HttpGet]
         [ExactQueryParam("page")]
-        public async Task<IEnumerable<Whitelist>> GetPage([FromQuery(Name = "page")] int page)
+        public async Task<IActionResult> GetPage([FromQuery(Name = "page")] int page)
         {
-            return await dbContext.Whitelist.ToListAsync();
+            if (page < 1)
+                return BadRequest($"Out of range: {page}");
+
+            var whitelists = await dbContext.Whitelist.ToListAsync();
+            return Ok(whitelists);
         }
 
         [HttpGet]
         [ExactQueryParam("version")]
-        public async Task<IEnumerable<Whitelist>> GetByVersion([FromQuery(Name = "version")] string version)
+        public async Task<IActionResult> GetByVersion([FromQuery(Name = "version")] string version)
         {
-            return await dbContext.Whitelist
+            if (!validateVersion.IsMatch(version))
+                return BadRequest($"Invalid version: {version}");
+
+            var whitelist = await dbContext.Whitelist
                 .Where(list => (list.Version == version))
-                .ToListAsync();
+                .FirstOrDefaultAsync();
+            return Ok(whitelist);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<Whitelist> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await dbContext.Whitelist
+            if (id < 1)
+                return BadRequest($"Out of range: {id}");
+
+            var whitelist = await dbContext.Whitelist
                 .Where(list => (list.Id == id))
                 .FirstOrDefaultAsync();
+            return Ok(whitelist);
         }
 
         [HttpGet("latest")]
-        public async Task<Whitelist> GetLatest()
+        public async Task<IActionResult> GetLatest()
         {
-            return await dbContext.Whitelist
+            var latest = await dbContext.Whitelist
                 .OrderByDescending(list => list.Id)
                 .FirstOrDefaultAsync();
+            return Ok(latest);
         }
 
-        [HttpGet("distribute/version:regex(^\\d{{1}}.\\d{{1}}.\\d{{1}}$)")]
-        public async Task<IActionResult> Distribute(int version)
+        [HttpGet("distribute")]
+        [ExactQueryParam("version")]
+        public async Task<IActionResult> Distribute([FromQuery(Name = "version")] string version)
         {
+            if (!validateVersion.IsMatch(version))
+                return BadRequest($"Invalid version: {version}");
+
+            var exists = await dbContext.Whitelist
+                .AnyAsync(list => (list.Version == version));
+
+            if (!exists)
+                return NoContent();
+
             // sftp를 이용해 화이트리스트 전송
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 batchFileSender.Start();
                 batchFileSender.WaitForExit();
             });
-            // TODO: TCP를 이용해 에이전트 프로그램에 알림 (홈 화면)
             return Ok();
         }
 
@@ -68,12 +108,10 @@ namespace UHDControlServer.Controllers
 
         private readonly ILogger<WhitelistController> logger;
 
-        private readonly Process batchFileSender = new Process()
-        {
-            StartInfo = new ProcessStartInfo("file_sender.bat")
-            {
-                UseShellExecute = false
-            }
-        };
+        private string batchFileSenderArguments;
+
+        private Process batchFileSender;
+
+        private readonly Regex validateVersion;
     }
 }
