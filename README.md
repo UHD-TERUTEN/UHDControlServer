@@ -38,13 +38,13 @@ $ yarn run dev
 (오류 메시지 무시하고 일정 시간 뒤 새로고침)
 
 ## Backend API
-### file-access-reject-logs
+### file-access-reject-log
 |Implemented|Method|URL|Example|
 |--|--|--|--|
-|Yes|GET|api/file-access-reject-logs?page={page}|curl -X GET http://localhost:50598/api/file-access-reject-logs?page=1|
-|Yes|GET|api/file-access-reject-logs/{id}|curl -X GET http://localhost:50598/api/file-access-reject-logs/1|
-|Yes|GET|api/file-access-reject-logs/{id}/inquiries/{inquiry-id}|curl -X GET http://localhost:50598/api/file-access-reject-logs/1/inquiries/1|
-|Yes|PUT|api/file-access-reject-logs/{id}|curl -X PUT http://localhost:50598/api/file-access-reject-logs -H "Content-Type: application/json" -d '{"id":1,"agentId":99,"dateTime":"2021-02-09T00:00:00.0000000","programName":"pn","details":"d","isAllowed":true,"inquiries":[]}'|
+|Yes|GET|api/file-access-reject-log?page={page}|curl -X GET http://localhost:50598/api/file-access-reject-log?page=1|
+|Yes|GET|api/file-access-reject-log/{id}|curl -X GET http://localhost:50598/api/file-access-reject-log/1|
+|Yes|GET|api/file-access-reject-log/{id}/inquiries/{inquiry-id}|curl -X GET http://localhost:50598/api/file-access-reject-log/1/inquiries/1|
+|Yes|PUT|api/file-access-reject-log/{id}|curl -X PUT http://localhost:50598/api/file-access-reject-log -H "Content-Type: application/json" -d '{"id":1,"agentId":99,"dateTime":"2021-02-09T00:00:00.0000000","programName":"pn","details":"d","isAllowed":true,"inquiries":[]}'|
 
 ### whitelist
 |Implemented|Method|URL|Example|
@@ -54,10 +54,10 @@ $ yarn run dev
 |Yes|GET|api/whitelist/{id}|curl -X GET http://localhost:50598/api/whitelist/1|
 |Yes|GET|api/whitelist/latest|curl -X GET http://localhost:50598/api/whitelist/latest|
 
-### system-logs
+### system-log
 |Implemented|Method|URL|Example|
 |--|--|--|--|
-|Yes|GET|api/system-logs?page={page}|curl -X GET http://localhost:50598/api/system-logs?page=1|
-|Yes|GET|api/system-logs/{id}|curl -X GET http://localhost:50598/api/system-logs/1|
+|Yes|GET|api/system-log?page={page}|curl -X GET http://localhost:50598/api/system-log?page=1|
+|Yes|GET|api/system-log/{id}|curl -X GET http://localhost:50598/api/system-log/1|
 
 > powershell 환경에서는 [Invoke-WebRequest](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest?view=powershell-7.1) 참조

@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     next() {
-      axios.get(`/system-logs?page=${this.page}`)
+      axios.get(`/system-log?page=${this.page}`)
         .then(res => {
           console.log(res)
           this.logList = res.data
@@ -76,7 +76,7 @@ export default {
         .catch(err => console.log(err))
     },
     getLog(id) {
-      axios.get(`/system-logs/${id}`)
+      axios.get(`/system-log/${id}`)
         .then(res => {
           console.log(res)
         })
@@ -89,7 +89,7 @@ export default {
     downloadLog(item) {
       const fileName = this.getFileName(item)
       console.log(fileName)
-      axios.get(`/system-logs/${fileName}`, { responseType: 'blob' })
+      axios.get(`/system-log/${fileName}`, { responseType: 'blob' })
         .then(res => {
           const fileUrl = window.URL.createObjectURL(new Blob([res.data]))
           const fileLink = document.createElement('a')

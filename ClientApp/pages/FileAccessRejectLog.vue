@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     next() {
-      axios.get(`/file-access-reject-logs?page=${this.page}`)
+      axios.get(`/file-access-reject-log?page=${this.page}`)
         .then(res => {
           console.log(res)
           this.logList = res.data
@@ -107,14 +107,14 @@ export default {
         .catch(err => console.log(err))
     },
     getLog(id) {
-      axios.get(`/file-access-reject-logs/${id}`)
+      axios.get(`/file-access-reject-log/${id}`)
         .then(res => {
           console.log(res)
         })
         .catch(err => console.log(err))
     },
     getInquiries(id) {
-      axios.get(`/file-access-reject-logs/${id}/inquiries/1`) // TODO: get all inquiries
+      axios.get(`/file-access-reject-log/${id}/inquiries/1`) // TODO: get all inquiries
         .then(res => {
           console.log(res)
         })
@@ -125,7 +125,7 @@ export default {
       this.updateLog(item)
     },
     updateLog(item) {
-      axios.put('/file-access-reject-logs', item)
+      axios.put('/file-access-reject-log', item)
         .then(res => {
           this.text = `${res.data.isAllowed ? '허용' : '차단' }되었습니다`
           this.snackbar = true
