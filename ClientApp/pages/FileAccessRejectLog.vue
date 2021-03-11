@@ -125,6 +125,7 @@ export default {
       this.updateLog(item)
     },
     updateLog(item) {
+      this.snackbar = false
       axios.put('/file-access-reject-log', item)
         .then(res => {
           this.text = `${res.data.isAllowed ? '허용' : '차단' }되었습니다`
