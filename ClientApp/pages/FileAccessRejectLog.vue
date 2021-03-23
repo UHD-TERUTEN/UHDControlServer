@@ -24,6 +24,7 @@
             <td>{{ item.details }}</td>
             <td>
               <v-btn
+                class="check"
                 color="primary"
                 elevation="1"
                 @click="getInquiries(item.id)"
@@ -33,6 +34,7 @@
             </td>
             <td>
               <v-btn
+                class="allow"
                 v-if="item.isAllowed"
                 color="primary"
                 elevation="1"
@@ -41,6 +43,7 @@
                 허용
               </v-btn>
               <v-btn
+                class="reject"
                 v-else
                 color="error"
                 elevation="1"

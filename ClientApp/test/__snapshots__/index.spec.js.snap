@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`main(index) component tests should be a Vue instance 1`] = `
+<v-container-stub tag="div">
+  <v-row-stub tag="div" justify="space-around">
+    <v-col-stub tag="div" justify="space-around">
+      <v-card-stub loaderheight="4" tag="div">
+        <v-parallax-stub height="400" alt="" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"></v-parallax-stub>
+        <v-card-text-stub>
+          <div class="font-weight-bold ml-8 mb-2">
+            Features
+          </div>
+          <v-timeline-stub aligntop="true" dense="true">
+            <v-timeline-item-stub color="cyan lighten-3" small="true">
+              <div>
+                <div class="font-weight-normal"><strong>파일 접근 차단 로그</strong></div>
+                <div>에이전트 PC 환경에서 발생한 파일 접근 차단 로그 관리</div>
+              </div>
+            </v-timeline-item-stub>
+            <v-timeline-item-stub color="orange darken-1" small="true">
+              <div>
+                <div class="font-weight-normal"><strong>화이트리스트</strong></div>
+                <div>화이트리스트 버전 관리 및 에이전트 PC 환경에 배포</div>
+              </div>
+            </v-timeline-item-stub>
+            <v-timeline-item-stub color="lime lighten-1" small="true">
+              <div>
+                <div class="font-weight-normal"><strong>에이전트 시스템 로그</strong></div>
+                <div>에이전트 PC 환경에서 발생한 시스템 로그 확인</div>
+              </div>
+            </v-timeline-item-stub>
+          </v-timeline-stub>
+        </v-card-text-stub>
+      </v-card-stub>
+    </v-col-stub>
+  </v-row-stub>
+</v-container-stub>
+`;
+
+exports[`main(index) component tests should render correctly 1`] = `
+<v-container-stub tag="div">
+  <v-row-stub tag="div" justify="space-around">
+    <v-col-stub tag="div" justify="space-around">
+      <v-card-stub loaderheight="4" tag="div">
+        <v-parallax-stub height="400" alt="" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"></v-parallax-stub>
+        <v-card-text-stub>
+          <div class="font-weight-bold ml-8 mb-2">
+            Features
+          </div>
+          <v-timeline-stub aligntop="true" dense="true">
+            <v-timeline-item-stub color="cyan lighten-3" small="true">
+              <div>
+                <div class="font-weight-normal"><strong>파일 접근 차단 로그</strong></div>
+                <div>에이전트 PC 환경에서 발생한 파일 접근 차단 로그 관리</div>
+              </div>
+            </v-timeline-item-stub>
+            <v-timeline-item-stub color="orange darken-1" small="true">
+              <div>
+                <div class="font-weight-normal"><strong>화이트리스트</strong></div>
+                <div>화이트리스트 버전 관리 및 에이전트 PC 환경에 배포</div>
+              </div>
+            </v-timeline-item-stub>
+            <v-timeline-item-stub color="lime lighten-1" small="true">
+              <div>
+                <div class="font-weight-normal"><strong>에이전트 시스템 로그</strong></div>
+                <div>에이전트 PC 환경에서 발생한 시스템 로그 확인</div>
+              </div>
+            </v-timeline-item-stub>
+          </v-timeline-stub>
+        </v-card-text-stub>
+      </v-card-stub>
+    </v-col-stub>
+  </v-row-stub>
+</v-container-stub>
+`;
