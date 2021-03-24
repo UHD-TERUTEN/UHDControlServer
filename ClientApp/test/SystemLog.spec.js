@@ -18,21 +18,42 @@ describe('SystemLog component tests', () => {
     expect(wrapper.vm).toBeTruthy()
   })
 
-  // it('should return logList when the component after mounted', () => {
-  //   expect(wrapper.vm.logList.length).toBeGreaterThan(0)
-  // })
+  it('should return logList when the component after mounted', () => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        status: 200,
+        response: generateData(1)
+      })
+      expect(wrapper.vm.logList.length).toBeGreaterThan(0)
+    })
+  })
 
-  // it('should throw error if download button is clicked', () => {
-  //   const downloadButton = wrapper.findComponent({ name: 'v-btn' })
-  //   downloadButton.trigger('click')
-  //   expect(downloadButton.text()).toBe('다운로드')
-  // })
+  it('should throw error if download button is clicked', () => {
+    const downloadButton = wrapper.findComponent({ name: 'v-btn' })
+    downloadButton.trigger('click')
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        status: 200,
+        response: generateData(1)
+      })
+      expect(downloadButton.text()).toBe('다운로드')
+    })
+  })
 
-  // it('should return page 4 if next button is clicked 3 times', () => {
-  //   const pagination = wrapper.findComponent({ name: 'v-pagination' })
-  //   pagination.trigger('input')
-  //   pagination.trigger('input')
-  //   pagination.trigger('input')
-  //   expect(wrapper.vm.page).toBe(4)
-  // })
+  it('should return page 4 if next button is clicked 3 times', () => {
+    const pagination = wrapper.findComponent({ name: 'v-pagination' })
+    pagination.trigger('input')
+    pagination.trigger('input')
+    pagination.trigger('input')
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        status: 200,
+        response: generateData(1)
+      })
+      expect(wrapper.vm.page).toBe(4)
+    })
+  })
 })

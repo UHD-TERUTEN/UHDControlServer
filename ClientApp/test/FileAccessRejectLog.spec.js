@@ -1,7 +1,8 @@
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import FileAccessRejectLog from '@/pages/FileAccessRejectLog'
-import axios from '../axios'
+import axios from '@/axios'
+import moxios from 'moxios'
 
 const generateData = (number) => 
   [...Array(10).keys()].map(x => {
@@ -14,8 +15,6 @@ const generateData = (number) =>
     })
   })
 
-jest.mock('axios')
-
 describe('FileAccessRejectLog component tests', () => {
   const localVue = createLocalVue()
   let wrapper
@@ -26,6 +25,11 @@ describe('FileAccessRejectLog component tests', () => {
       localVue,
       vuetify,
     })
+    moxios.install(axios)
+  })
+
+  afterEach(() => {
+    moxios.uninstall(axios)
   })
 
   it('should be a Vue instance', () => {
@@ -33,20 +37,42 @@ describe('FileAccessRejectLog component tests', () => {
   })
 
   it('should return logList when the component after mounted', () => {
-    expect(wrapper.vm.logList.length).toBeGreaterThan(0)
+    wrapper.vm.next()
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        status: 200,
+        response: generateData(1)
+      })
+      expect(wrapper.vm.logList.length).toBeGreaterThan(0)
+    })
   })
 
   it('should return true and print message if allow button is clicked', () => {
     wrapper.find('.v-btn.allow').trigger('click')
-    expect(wrapper.vm.text).toBe('허용되었습니다')
-    expect(wrapper.vm.snackbar).toBeTruthy()
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        status: 200,
+        response: generateData(1)
+      })
+      expect(wrapper.vm.text).toBe('허용되었습니다')
+      expect(wrapper.vm.snackbar).toBeTruthy()
+    })
   })
 
   it('should return false and print message if reject button is clicked', () => {
     wrapper.find('.v-btn.allow').trigger('click')
     wrapper.find('.v-btn.reject').trigger('click')
-    expect(wrapper.vm.text).toBe('차단되었습니다')
-    expect(wrapper.vm.snackbar).toBeFalsy()
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        status: 200,
+        response: generateData(1)
+      })
+      expect(wrapper.vm.text).toBe('차단되었습니다')
+      expect(wrapper.vm.snackbar).toBeFalsy()
+    })
   })
 
   it('should return page 4 if next button is clicked 3 times', () => {
@@ -54,6 +80,13 @@ describe('FileAccessRejectLog component tests', () => {
     pagination.trigger('input')
     pagination.trigger('input')
     pagination.trigger('input')
-    expect(wrapper.vm.page).toBe(4)
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent()
+      request.respondWith({
+        status: 200,
+        response: generateData(4)
+      })
+      expect(wrapper.vm.page).toBe(4)
+    })
   })
 })
