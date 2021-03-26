@@ -1,2 +1,1 @@
-# TODO
-# put ../whitelist %AGENT_PATH%
+put ../whitelist.sqlite ./AppData/Local/UHDControlServer/whitelist.sqlite
