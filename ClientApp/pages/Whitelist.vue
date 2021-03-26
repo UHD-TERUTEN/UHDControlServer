@@ -1,5 +1,6 @@
 <template>
   <v-alert text color="info">
+
     <v-row>
       <v-col><h3 class="headline">Whitelist</h3></v-col>
     </v-row>
@@ -15,11 +16,26 @@
       <v-col cols="3">마지막 배포 시각: </v-col>
       <v-col>{{ latestWhitelist.lastDistributed }}</v-col>
     </v-row>
+
     <v-divider class="my-4 info" style="opacity: 0.22" />
+
     <v-row align="center" no-gutters>
       <v-spacer />
       <v-col class="shrink">
-        <v-btn color="primary" elevation="1"> 배포하기 </v-btn>
+        <v-btn
+          color="primary"
+          elevation="1"
+          @click="distributeWhitelist()"
+        >
+          배포하기
+        </v-btn>
+        <v-snackbar
+          v-model="snackbar"
+          :timeout="timeout"
+          right
+        >
+          배포했습니다
+        </v-snackbar>
       </v-col>
     </v-row>
   </v-alert>
@@ -35,7 +51,9 @@ export default {
         version: "1.2.3",
         lastUpdated: "2021.02.24 21:25",
         lastDistributed: "2021.02.25 00:24",
-      }
+      },
+      snackbar: false,
+      timeout: 2000,
     };
   },
   created() {
@@ -45,5 +63,15 @@ export default {
       })
       .catch(err => console.log(err))
   },
+  methods: {
+    distributeWhitelist() {
+      axios.get(`/whitelist/distribute/${this.latestWhitelist.version}`)
+        .then(res => {
+          console.log(res)
+          this.snackbar = true
+        })
+        .catch(err => console.log(err))
+      }
+  }
 };
 </script>

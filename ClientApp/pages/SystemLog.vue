@@ -23,7 +23,7 @@
               <v-btn
                 color="primary"
                 elevation="1"
-                @click="downloadLog(id)"
+                @click="downloadLog(item)"
               >
                 다운로드
               </v-btn>
@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     next() {
-      axios.get(`/system-logs?page=${this.page}`)
+      axios.get(`/system-log?page=${this.page}`)
         .then(res => {
           console.log(res)
           this.logList = res.data
@@ -76,14 +76,30 @@ export default {
         .catch(err => console.log(err))
     },
     getLog(id) {
-      axios.get(`/file-access-reject-logs/${id}`)
+      axios.get(`/system-log/${id}`)
         .then(res => {
           console.log(res)
         })
         .catch(err => console.log(err))
     },
-    downloadLog(id) {
-      // TODO: implement here
+    getFileName(item) {
+      const shortDate = item.dateTime.slice(0, 10)
+      return `${item.agentId}_${shortDate}.zip`
+    },
+    downloadLog(item) {
+      const fileName = this.getFileName(item)
+      console.log(fileName)
+      axios.get(`/system-log/${fileName}`, { responseType: 'blob' })
+        .then(res => {
+          const fileUrl = window.URL.createObjectURL(new Blob([res.data]))
+          const fileLink = document.createElement('a')
+
+          fileLink.href = fileUrl
+          fileLink.setAttribute('download', fileName)
+          document.body.appendChild(fileLink)
+          fileLink.click()
+        })
+        .catch(err => console.log(err))
     },
   }
 }

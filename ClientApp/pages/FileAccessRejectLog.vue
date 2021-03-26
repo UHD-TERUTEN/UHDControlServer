@@ -24,6 +24,7 @@
             <td>{{ item.details }}</td>
             <td>
               <v-btn
+                class="check"
                 color="primary"
                 elevation="1"
                 @click="getInquiries(item.id)"
@@ -33,21 +34,30 @@
             </td>
             <td>
               <v-btn
+                class="allow"
                 v-if="item.isAllowed"
                 color="primary"
                 elevation="1"
-                @click="updateLog(item)"
+                @click="toggleAllow(item)"
               >
                 허용
               </v-btn>
               <v-btn
+                class="reject"
                 v-else
                 color="error"
                 elevation="1"
-                @click="updateLog(item)"
+                @click="toggleAllow(item)"
               >
                 차단
               </v-btn>
+              <v-snackbar
+                v-model="snackbar"
+                :timeout="timeout"
+                right
+              >
+                {{ text }}
+              </v-snackbar>
             </td>
           </tr>
         </tbody>
@@ -82,6 +92,9 @@ export default {
     return {
       logList: [],
       page: 1,
+      snackbar: false,
+      timeout: 2000,
+      text: null
     }
   },
   created() {
@@ -89,7 +102,7 @@ export default {
   },
   methods: {
     next() {
-      axios.get(`/file-access-reject-logs?page=${this.page}`)
+      axios.get(`/file-access-reject-log?page=${this.page}`)
         .then(res => {
           console.log(res)
           this.logList = res.data
@@ -97,24 +110,29 @@ export default {
         .catch(err => console.log(err))
     },
     getLog(id) {
-      axios.get(`/file-access-reject-logs/${id}`)
+      axios.get(`/file-access-reject-log/${id}`)
         .then(res => {
           console.log(res)
         })
         .catch(err => console.log(err))
     },
     getInquiries(id) {
-      axios.get(`/file-access-reject-logs/${id}/inquiries/1`) // TODO: get all inquiries
+      axios.get(`/file-access-reject-log/${id}/inquiries/1`) // TODO: get all inquiries
         .then(res => {
           console.log(res)
         })
         .catch(err => console.log(err))
     },
+    toggleAllow(item) {
+      item.isAllowed = !item.isAllowed
+      this.updateLog(item)
+    },
     updateLog(item) {
-      item.isAllowed = !item.isAllowed;
-      axios.put(`/file-access-reject-logs/${item.id}`, item)  // 405 Method Not Allowed
+      this.snackbar = false
+      axios.put('/file-access-reject-log', item)
         .then(res => {
-          console.log(res)
+          this.text = `${res.data.isAllowed ? '허용' : '차단' }되었습니다`
+          this.snackbar = true
         })
         .catch(err => console.log(err));
     }

@@ -1,0 +1,1 @@
+put ../whitelist.sqlite ./AppData/Local/UHDControlServer/whitelist.sqlite
