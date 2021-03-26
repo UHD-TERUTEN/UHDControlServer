@@ -342,3 +342,6 @@ healthchecksdb
 # Database and migrations
 *.sqlite
 Migrations/
+
+# Account informations
+scripts/account.txt
