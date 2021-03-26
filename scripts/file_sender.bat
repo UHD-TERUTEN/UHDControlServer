@@ -6,7 +6,7 @@ set id_rsa_location=%HOMEDRIVE%%HOMEPATH%\.ssh\id_rsa
 echo start update
 echo.
 echo ssh connects to %ssh_account%...
-ssh -i %id_rsa_location% %ssh_account% "mkdir .\AppData\Local\UHDControlServer"
+ssh -i %id_rsa_location% %ssh_account% "mkdir .\AppData\Local\FileAccessControlAgent"
 echo.
 echo uploading whitelist
 echo.

@@ -1,1 +1,2 @@
-put ../whitelist.sqlite ./AppData/Local/UHDControlServer/whitelist.sqlite
+put ..\whitelist.sqlite .\AppData\Local\FileAccessControlAgent\whitelist.sqlite
+bye
