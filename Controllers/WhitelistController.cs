@@ -21,14 +21,9 @@ namespace UHDControlServer.Controllers
             this.logger = logger;
             this.dbContext = dbContext;
 
-            using (var streamReader = new StreamReader(@"scripts/upload.txt"))
-            {
-                batchFileSenderArguments = streamReader.ReadLine();
-            }
-
             batchFileSender = new Process()
             {
-                StartInfo = new ProcessStartInfo("scripts/file_sender.bat", batchFileSenderArguments)
+                StartInfo = new ProcessStartInfo("scripts/file_sender.bat")
                 {
                     UseShellExecute = false
                 }
@@ -107,8 +102,6 @@ namespace UHDControlServer.Controllers
         private readonly SqliteDbContext dbContext;
 
         private readonly ILogger<WhitelistController> logger;
-
-        private string batchFileSenderArguments;
 
         private Process batchFileSender;
 
