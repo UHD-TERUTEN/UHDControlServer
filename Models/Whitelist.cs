@@ -10,8 +10,6 @@ namespace UHDControlServer.Models
 
         public string Version { get; set; }
 
-        public DateTime LastUpdated { get; set; }
-
-        public DateTime LastDistributed { get; set; }
+        public DateTime? LastDistributed { get; set; }
     }
 }

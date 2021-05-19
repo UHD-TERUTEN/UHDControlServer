@@ -46,8 +46,7 @@ $ yarn run dev
 |--|--|--|--|
 |Yes|GET|api/file-access-reject-log?page={page}|curl -X GET http://localhost:50598/api/file-access-reject-log?page=1|
 |Yes|GET|api/file-access-reject-log/{id}|curl -X GET http://localhost:50598/api/file-access-reject-log/1|
-|Yes|GET|api/file-access-reject-log/{id}/inquiries/{inquiry-id}|curl -X GET http://localhost:50598/api/file-access-reject-log/1/inquiries/1|
-|Yes|PUT|api/file-access-reject-log/{id}|curl -X PUT http://localhost:50598/api/file-access-reject-log -H "Content-Type: application/json" -d '{"id":1,"agentId":99,"dateTime":"2021-02-09T00:00:00.0000000","programName":"pn","details":"d","isAllowed":true,"inquiries":[]}'|
+|Yes|PUT|api/file-access-reject-log/{id}|curl -X PUT http://localhost:50598/api/file-access-reject-log -H "Content-Type: application/json" -d '{"id":1,"agentId":99,"date":"2021-02-09","programName":"pn","details":"d","isAllowed":true}'|
 
 ### whitelist
 |Implemented|Method|URL|Example|

@@ -26,8 +26,8 @@ namespace UHDControlServer.Controllers
             if (page < 1)
                 return BadRequest($"Out of range: {page}");
 
-            var fileAccessRejectLogs = await dbContext.FileAccessRejectLogs.ToListAsync();
-            return Ok(fileAccessRejectLogs);
+            var fileAccessRejectLog = await dbContext.FileAccessRejectLog.ToListAsync();
+            return Ok(fileAccessRejectLog);
         }
 
         [HttpGet("{id:int}")]
@@ -36,28 +36,16 @@ namespace UHDControlServer.Controllers
             if (id < 1)
                 return BadRequest($"Out of range: {id}");
 
-            var fileAccessRejectLog =  await dbContext.FileAccessRejectLogs
+            var fileAccessRejectLog =  await dbContext.FileAccessRejectLog
                 .Where(log => (log.Id == id))
                 .FirstOrDefaultAsync();
             return Ok(fileAccessRejectLog);
         }
 
-        [HttpGet("{id:int}/inquiries/{inquiryId:int}")]
-        public async Task<IActionResult> GetInquiries(int id, int inquiryId)
-        {
-            if (id < 1)         return BadRequest($"Out of range: {id}");
-            if (inquiryId < 1)  return BadRequest($"Out of range: {inquiryId}");
-
-            var log = await dbContext.FileAccessRejectLogs
-                .Where(log => (log.Id == id))
-                .FirstOrDefaultAsync();
-            return Ok(log);
-        }
-
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] FileAccessRejectLog fileAccessRejectLog)
         {
-            var fileAccessRejectLogEntry = dbContext.FileAccessRejectLogs.Update(fileAccessRejectLog);
+            var fileAccessRejectLogEntry = dbContext.FileAccessRejectLog.Update(fileAccessRejectLog);
             var changedEntry = fileAccessRejectLogEntry.Context.ChangeTracker.Entries()
                 .Where(x => x.State != EntityState.Unchanged).ToList();
 

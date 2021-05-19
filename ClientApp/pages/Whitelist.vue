@@ -9,10 +9,6 @@
       <v-col>{{ latestWhitelist.version }}</v-col>
     </v-row>
     <v-row>
-      <v-col cols="3">현재 버전 업데이트 시각: </v-col>
-      <v-col>{{ latestWhitelist.lastUpdated }}</v-col>
-    </v-row>
-    <v-row>
       <v-col cols="3">마지막 배포 시각: </v-col>
       <v-col>{{ latestWhitelist.lastDistributed }}</v-col>
     </v-row>
@@ -49,8 +45,8 @@ export default {
     return {
       latestWhitelist: {
         version: "1.2.3",
-        lastUpdated: "2021.02.24 21:25",
-        lastDistributed: "2021.02.25 00:24",
+        lastUpdated: "2021.02.24",
+        lastDistributed: "2021.02.25",
       },
       snackbar: false,
       timeout: 2000,

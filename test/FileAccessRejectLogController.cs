@@ -97,21 +97,6 @@ namespace test
         }
 
         [Fact]
-        public async Task GetInquiries()
-        {
-            using (var response = await client.GetAsync($"{baseUrl}/file-access-reject-log/1/inquiries/1"))
-            {
-                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-                var responseString = await response.Content.ReadAsStringAsync();
-                var deserialized = JsonSerializer.Deserialize<FileAccessRejectLog>(responseString, caseInsensitive);
-
-                Assert.Equal(1, deserialized.Id);
-            }
-        }
-
-
-        [Fact]
         public async Task PutOne()
         {
             FileAccessRejectLog fileAccessRejectLog = null;

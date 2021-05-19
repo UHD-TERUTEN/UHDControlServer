@@ -10,7 +10,7 @@ namespace UHDControlServer.Models
 
         public int AgentId { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTime Date { get; set; }
 
         public int Size { get; set; }
     }

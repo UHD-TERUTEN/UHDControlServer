@@ -10,14 +10,16 @@ namespace UHDControlServer.Models
 
         public int AgentId { get; set; }
         
-        public DateTime DateTime { get; set; }
+        public DateTime Date { get; set; }
 
         public string ProgramName { get; set; }
 
-        public string Details { get; set; }
+        public string FileName { get; set; }
+
+        public string Operation { get; set; }
+
+        public string PlainText { get; set; }
 
         public bool IsAllowed { get; set; }
-
-        public Inquiry[] Inquiries { get; set; } = new Inquiry[] { };
     }
 }

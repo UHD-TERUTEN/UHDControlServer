@@ -17,7 +17,7 @@
             :key="item.name"
           >
             <td>{{ item.agentId }}</td>
-            <td>{{ item.dateTime }}</td>
+            <td>{{ item.date }}</td>
             <td>{{ item.size }}</td>
             <td>
               <v-btn
@@ -75,16 +75,9 @@ export default {
         })
         .catch(err => console.log(err))
     },
-    getLog(id) {
-      axios.get(`/system-log/${id}`)
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => console.log(err))
-    },
     getFileName(item) {
-      const shortDate = item.dateTime.slice(0, 10)
-      return `${item.agentId}_${shortDate}.zip`
+      const shortDate = item.date.slice(0, 10)
+      return `${shortDate}.tar.gz`
     },
     downloadLog(item) {
       const fileName = this.getFileName(item)

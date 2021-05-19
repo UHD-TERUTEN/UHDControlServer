@@ -1,6 +1,8 @@
 import Vuetify from 'vuetify'
 import { createLocalVue, mount } from '@vue/test-utils'
 import Whitelist from '@/pages/Whitelist'
+import axios from '@/axios'
+import moxios from 'moxios'
 
 describe('Whitelist component tests', () => {
   const localVue = createLocalVue()
@@ -12,6 +14,11 @@ describe('Whitelist component tests', () => {
       localVue,
       vuetify,
     })
+    moxios.install(axios)
+  })
+
+  afterEach(() => {
+    moxios.uninstall(axios)
   })
 
   it('should be a Vue instance', () => {

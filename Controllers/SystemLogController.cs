@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -28,8 +29,8 @@ namespace UHDControlServer.Controllers
             if (page < 1)
                 return BadRequest($"Out of range: {page}");
 
-            var systemLogs = await dbContext.SystemLogs.ToListAsync();
-            return Ok(systemLogs);
+            var systemLog = await dbContext.SystemLog.ToListAsync();
+            return Ok(systemLog);
         }
 
         [HttpGet("{id:int}")]
@@ -38,7 +39,7 @@ namespace UHDControlServer.Controllers
             if (id < 1)
                 return BadRequest($"Out of range: {id}");
 
-            var systemLog = await dbContext.SystemLogs
+            var systemLog = await dbContext.SystemLog
                 .Where(log => (log.Id == id))
                 .FirstOrDefaultAsync();
             return Ok(systemLog);
@@ -47,7 +48,8 @@ namespace UHDControlServer.Controllers
         [HttpGet("{fileName}")]
         public IActionResult GetBlobDownload(string fileName)
         {
-            string filePath = $"../logs/{fileName}";
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
+                                + $@"\Logs\EventLogs\{fileName}";
 
             if (!validateFileName.IsMatch(fileName)
                 || !System.IO.File.Exists(filePath))

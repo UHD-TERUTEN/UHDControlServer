@@ -6,10 +6,11 @@
         <thead>
           <tr>
             <th class="text-left">에이전트 번호</th>
-            <th class="text-left">시간</th>
+            <th class="text-left">날짜</th>
             <th class="text-left">프로그램</th>
-            <th class="text-left">내용</th>
-            <th class="text-left">관련 문의</th>
+            <th class="text-left">파일</th>
+            <th class="text-left">접근</th>
+            <th class="text-left">전체 로그 확인</th>
             <th class="text-left">허용하기</th>
           </tr>
         </thead>
@@ -19,22 +20,23 @@
             :key="item.name"
           >
             <td>{{ item.agentId }}</td>
-            <td>{{ item.dateTime }}</td>
+            <td>{{ item.date }}</td>
             <td>{{ item.programName }}</td>
-            <td>{{ item.details }}</td>
+            <td>{{ item.fileName }}</td>
+            <td>{{ item.operation }}</td>
             <td>
               <v-btn
-                class="check"
+                data-test="check"
                 color="primary"
                 elevation="1"
-                @click="getInquiries(item.id)"
+                @click="showPlainText(item.id)"
               >
                 확인
               </v-btn>
             </td>
             <td>
               <v-btn
-                class="allow"
+                data-test="allow"
                 v-if="item.isAllowed"
                 color="primary"
                 elevation="1"
@@ -43,7 +45,7 @@
                 허용
               </v-btn>
               <v-btn
-                class="reject"
+                data-test="reject"
                 v-else
                 color="error"
                 elevation="1"
@@ -71,6 +73,7 @@
             <v-container class="max-width">
               <v-pagination
                 v-model="page"
+                data-test="pagination"
                 class="my-4"
                 :length="4"
                 @input="next"
@@ -109,15 +112,8 @@ export default {
         })
         .catch(err => console.log(err))
     },
-    getLog(id) {
+    showPlainText(id) {
       axios.get(`/file-access-reject-log/${id}`)
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => console.log(err))
-    },
-    getInquiries(id) {
-      axios.get(`/file-access-reject-log/${id}/inquiries/1`) // TODO: get all inquiries
         .then(res => {
           console.log(res)
         })

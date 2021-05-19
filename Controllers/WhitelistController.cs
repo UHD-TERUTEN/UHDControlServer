@@ -23,7 +23,7 @@ namespace UHDControlServer.Controllers
 
             batchFileSender = new Process()
             {
-                StartInfo = new ProcessStartInfo("scripts/file_sender.bat")
+                StartInfo = new ProcessStartInfo("scripts/send.bat")
                 {
                     UseShellExecute = false
                 }
@@ -93,8 +93,8 @@ namespace UHDControlServer.Controllers
             // sftp를 이용해 화이트리스트 전송
             await Task.Run(() =>
             {
-                batchFileSender.Start();
-                batchFileSender.WaitForExit();
+                if (batchFileSender.Start())
+                    batchFileSender.WaitForExit();
             });
             return Ok();
         }
