@@ -43,7 +43,7 @@ namespace UHDControlServer.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] FileAccessRejectLog fileAccessRejectLog)
+        public async Task<IActionResult> Put(FileAccessRejectLog fileAccessRejectLog)
         {
             var fileAccessRejectLogEntry = dbContext.FileAccessRejectLog.Update(fileAccessRejectLog);
             var changedEntry = fileAccessRejectLogEntry.Context.ChangeTracker.Entries()
@@ -59,6 +59,15 @@ namespace UHDControlServer.Controllers
                 await dbContext.SaveChangesAsync();
                 return Ok(fileAccessRejectLog);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(FileAccessRejectLog fileAccessRejectLog)
+        {
+            dbContext.FileAccessRejectLog.Add(fileAccessRejectLog);
+            _ = await dbContext.SaveChangesAsync();
+
+            return Ok(fileAccessRejectLog);
         }
 
         private readonly SqliteDbContext dbContext;

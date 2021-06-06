@@ -99,6 +99,25 @@ namespace UHDControlServer.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put(Whitelist whitelist)
+        {
+            var whitelistEntry = dbContext.Whitelist.Update(whitelist);
+            var changedEntry = whitelistEntry.Context.ChangeTracker.Entries()
+                .Where(x => x.State != EntityState.Unchanged).ToList();
+
+            if (changedEntry.Count != 1)
+            {
+                whitelistEntry.Reload();
+                return BadRequest($"Invalid data: {whitelist}");
+            }
+            else
+            {
+                await dbContext.SaveChangesAsync();
+                return Ok(whitelist);
+            }
+        }
+
         private readonly SqliteDbContext dbContext;
 
         private readonly ILogger<WhitelistController> logger;

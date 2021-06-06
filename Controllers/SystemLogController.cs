@@ -19,7 +19,7 @@ namespace UHDControlServer.Controllers
         {
             this.logger = logger;
             this.dbContext = dbContext;
-            validateFileName = new Regex("^[0-9-_]{12}.zip$");
+            validateFileName = new Regex("^[0-9-]{10}.tar.gz$");
         }
 
         [HttpGet]

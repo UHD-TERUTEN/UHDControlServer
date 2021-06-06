@@ -19,7 +19,7 @@ namespace UHDControlServer
                 .HasDefaultValue(1);
             modelBuilder.Entity<FileAccessRejectLog>()
                 .Property(p => p.Date)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("date('now')");
             modelBuilder.Entity<FileAccessRejectLog>()
                 .Property(p => p.IsAllowed)
                 .HasDefaultValue(false);

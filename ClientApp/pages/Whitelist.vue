@@ -9,7 +9,7 @@
       <v-col>{{ latestWhitelist.version }}</v-col>
     </v-row>
     <v-row>
-      <v-col cols="3">마지막 배포 시각: </v-col>
+      <v-col cols="3">마지막 배포 날짜: </v-col>
       <v-col>{{ latestWhitelist.lastDistributed }}</v-col>
     </v-row>
 
@@ -45,7 +45,6 @@ export default {
     return {
       latestWhitelist: {
         version: "1.2.3",
-        lastUpdated: "2021.02.24",
         lastDistributed: "2021.02.25",
       },
       snackbar: false,
@@ -61,7 +60,8 @@ export default {
   },
   methods: {
     distributeWhitelist() {
-      axios.get(`/whitelist/distribute/${this.latestWhitelist.version}`)
+      this.latestWhitelist.lastDistributed = new Date().toISOString()
+      axios.put(`/whitelist/distribute`, this.latestWhitelist)
         .then(res => {
           console.log(res)
           this.snackbar = true

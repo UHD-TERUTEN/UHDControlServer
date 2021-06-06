@@ -5,7 +5,7 @@
       <template v-slot:default>
         <thead>
           <tr>
-            <th class="text-left">에이전트 번호</th>
+            <th class="text-left" style="width: 120px">에이전트 번호</th>
             <th class="text-left">날짜</th>
             <th class="text-left">프로그램</th>
             <th class="text-left">파일</th>
@@ -20,7 +20,7 @@
             :key="item.name"
           >
             <td>{{ item.agentId }}</td>
-            <td>{{ item.date }}</td>
+            <td>{{ item.date.substring(0, 10) }}</td>
             <td>{{ item.programName }}</td>
             <td>{{ item.fileName }}</td>
             <td>{{ item.operation }}</td>
@@ -29,10 +29,28 @@
                 data-test="check"
                 color="primary"
                 elevation="1"
-                @click="showPlainText(item.id)"
+                @click="dialog = true"
               >
                 확인
               </v-btn>
+              <v-dialog
+                v-model="dialog"
+                max-width="600"
+              >
+                <v-card>
+                  <v-card-text v-html="JSON.stringify(JSON.parse(item.plainText), null, '　　').replace(/(?:\r\n|\r|\n)/g, '<br/>')" />
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="dialog = false"
+                    >
+                      닫기
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </td>
             <td>
               <v-btn
@@ -97,7 +115,8 @@ export default {
       page: 1,
       snackbar: false,
       timeout: 2000,
-      text: null
+      text: null,
+      dialog: false,
     }
   },
   created() {
@@ -109,13 +128,6 @@ export default {
         .then(res => {
           console.log(res)
           this.logList = res.data
-        })
-        .catch(err => console.log(err))
-    },
-    showPlainText(id) {
-      axios.get(`/file-access-reject-log/${id}`)
-        .then(res => {
-          console.log(res)
         })
         .catch(err => console.log(err))
     },
